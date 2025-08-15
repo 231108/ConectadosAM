@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectados+</title>
+    <!-- Enlace a Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Enlace a Google Fonts para la tipografía Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables CSS para la paleta de colores */
+        :root {
+            --deep-black: #1a1a1a;
+            --soft-beige: #f5f5dc;
+            --pure-white: #ffffff;
+            --subtle-gold: #c9b16b;
+        }
+
+        /* Reset y estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: var(--pure-white);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* Evita el scroll horizontal */
+        }
+
+        /* Contenedor principal de la aplicación para transiciones */
+        #app-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            transition: opacity 0.5s ease-in-out; /* Animación de opacidad para transiciones de pantalla */
+        }
+
+        /* Sección de Bienvenida */
+        .welcome-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3.5rem); /* Tamaño de fuente responsivo */
+            color: var(--subtle-gold);
+            letter-spacing: 2px;
+        }
+
+        .welcome-container {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .welcome-container h2 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--soft-beige);
+        }
+
+        .welcome-container p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 40px;
+            color: var(--pure-white);
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background-color: var(--subtle-gold);
+            color: var(--deep-black);
+            padding: 18px 35px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            background-color: #e6c886; /* Un dorado ligeramente más claro */
+            transform: translateY(-3px);
+        }
+
+        /* Panel de Usuario (Dashboard) */
+        .dashboard {
+            display: none; /* Oculto por defecto, se muestra con JS */
+            flex-direction: column;
+            justify-content: flex-start; /* Alinea el contenido al inicio */
+            align-items: center;
+            padding: 50px 20px;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--subtle-gold);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .icon-card {
+            background-color: rgba(255, 255, 255, 0.07); /* Fondo ligeramente más visible */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: var(--soft-beige);
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon-card:hover {
+            transform: translateY(-8px);
+            background-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-card i {
+            color: var(--subtle-gold);
+            margin-bottom: 20px;
+            font-size: clamp(2.5rem, 6vw, 3.5rem); /* Tamaño de ícono responsivo */
+        }
+
+        .icon-card span {
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            font-weight: 600;
+            color: var(--pure-white);
+            opacity: 0.95;
+        }
+
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            .welcome-section {
+                padding: 30px;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+            }
+
+            .dashboard {
+                padding: 30px 15px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+                gap: 20px;
+            }
+
+            .icon-card {
+                padding: 30px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 2rem;
+            }
+
+            .welcome-container h2 {
+                font-size: 1.5rem;
+            }
+
+            .welcome-container p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <!-- Sección de Bienvenida -->
+        <section id="welcome-screen" class="welcome-section">
+            <div class="logo">
+                <h1>Conectados+</h1>
+            </div>
+            <div class="welcome-container">
+                <h2>Bienvenido a Conectados+</h2>
+                <p>Una plataforma elegante y minimalista, diseñada para conectar y crecer juntos.</p>
+                <a href="#" id="join-now-button" class="cta-button">Unirme Ahora</a>
+            </div>
+        </section>
+
+        <!-- Panel de Usuario (Dashboard) -->
+        <section id="dashboard-screen" class="dashboard">
+            <div class="dashboard-header">
+                <h2>Panel Principal</h2>
+            </div>
+            <div class="dashboard-grid">
+                <a href="#" class="icon-card">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>Conversaciones</span>
+                </a>
+                <a href="#" class="icon-card">
+                    <i class="fas fa-chalkboard"></i>
+                    <span>Talleres</span>
+                </a>
+                <a href="#" class="icon-card">
+                    <i class="fas fa-utensils"></i>
+                    <span>Cocina</span>
+                </a>
+                <a href="#" class="icon-card">
+                    <i class="fas fa-video"></i>
+                    <span>Videollamadas</span>
+                </a>
+                <a href="#" class="icon-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Recordatorios</span>
+                </a>
+                <a href="#" class="icon-card">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Pagos</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Obtener referencias a los elementos de pantalla
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const dashboardScreen = document.getElementById('dashboard-screen');
+        const joinNowButton = document.getElementById('join-now-button');
+        const appContainer = document.getElementById('app-container');
+
+        // Función para mostrar el dashboard y ocultar la pantalla de bienvenida
+        function showDashboard() {
+            // Inicia la animación de desvanecimiento
+            appContainer.style.opacity = 0;
+
+            // Espera a que termine la animación antes de cambiar la visibilidad
+            setTimeout(() => {
+                welcomeScreen.style.display = 'none';
+                dashboardScreen.style.display = 'flex'; // Cambia a flex para el diseño del dashboard
+
+                // Una vez que la pantalla del dashboard es visible, la hace aparecer suavemente
+                appContainer.style.opacity = 1;
+            }, 500); // Coincide con la duración de la transición CSS
+        }
+
+        // Añadir el event listener al botón "Unirme Ahora"
+        joinNowButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Evita que el enlace recargue la página
+            showDashboard();
+        });
+    </script>
+</body>
+</html>
